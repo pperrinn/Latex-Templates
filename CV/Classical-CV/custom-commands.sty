@@ -1,0 +1,99 @@
+% custom_commands.sty
+
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\classesList}[4]{
+    \item\small{
+        {#1 #2 #3 #4 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      {\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+% Grading level commands
+\usepackage{tikz}
+\definecolor{frontColor}{RGB}{105,105,105}% strong grey
+\definecolor{backColor}{RGB}{200,200,200}% grey
+\newcommand{\gradelong}[6]{%
+    \pgfmathtruncatemacro\floored{#1}%
+    \pgfmathsetmacro\diff{#1-\floored}%
+    \newdimen\diffDim%
+    \diffDim = \diff pt%
+    \newdimen\numPointsDim
+    \numPointsDim = #1 pt
+    \newdimen\maxPointsDim%
+    \maxPointsDim = #1 pt%
+    \begin{tikzpicture}
+        \foreach \x in {1, ..., #2}{
+            \ifnum \x > \floored \relax%
+                \def\fillCol{#6}%
+            \else%
+                \def\fillCol{#5}%
+            \fi%
+            \fill[\fillCol] (#3*\x, 0) circle (#4);
+        }%
+        \ifdim \diffDim > 0 pt \relax%
+            \ifdim \numPointsDim > \maxPointsDim \relax%
+            \else%
+                \pgfmathsetmacro\pos{#3*(\floored+1)}%
+                \begin{scope}[xshift=\pos]
+                    \clip (-#4,-#4) rectangle ++(#4*2*\diff,#4*2);
+                    \fill[#5] (0, 0) circle (#4);
+                \end{scope}
+            \fi%
+        \else%
+        \fi%
+    \end{tikzpicture}%
+}
+
+\newcommand{\grade}[1]{%
+    \gradelong%
+    {#1}% grade as floating point value
+    {6}% max number of points
+    {9pt}% spacing between points
+    {3pt}% radius of point
+    {frontColor}% foreground color
+    {backColor}% background color
+}
+
+% Custom command to insert the photo
+\newcommand{\insertphoto}[1]{
+  \begin{picture}(0,0)
+    \put(400, -60){\includegraphics[width=1in,height=1.1in]{#1}}
+  \end{picture}
+}
